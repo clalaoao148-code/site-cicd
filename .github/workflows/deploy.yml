@@ -15,7 +15,15 @@ permissions:
   id-token: write   # OIDC-токен для подтверждения деплоя
  
 jobs:
+  lint:                            # новое задание: проверка HTML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check HTML with HTMLHint
+        run: npx --yes htmlhint index.html
   deploy:                    # задание: опубликовать сайт
+    needs: lint
     runs-on: ubuntu-latest   # виртуальная машина-исполнитель
     environment:
       name: github-pages
